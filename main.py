@@ -50,46 +50,10 @@ def getEmails():
     # messages = result.get("messages")
 
     # # messages is a list of dictionaries where each dictionary contains a message id.
-    message = search_messages(service)
+    message = search_messages(service, "@nec.edu.np")
     # # iterate through all the messages
     for msg in message:
         read_message(service, msg)
-    # # Get the message from its id
-    # txt = service.users().messages().get(userId="me", id=msg["id"]).execute()
-
-    # # Use try-except to avoid any Errors
-    # try:
-    #     # Get value of 'payload' from dictionary 'txt'
-    #     payload = txt["payload"]
-    #     headers = payload["headers"]
-    #     # Look for Subject and Sender Email in the headers
-    #     for d in headers:
-    #         if d["name"] == "Subject":
-    #             subject = d["value"]
-    #         if d["name"] == "From":
-    #             sender = d["value"]
-
-    #     # The Body of the message is in Encrypted format. So, we have to decode it.
-    #     # Get the data and decode it with base 64 decoder.
-    #     parts = payload.get("parts")[0]
-    #     data = parts["body"]["data"]
-    #     data = data.replace("-", "+").replace("_", "/")
-    #     decoded_data = base64.b64decode(data)
-    #     print(decoded_data)
-
-    #     # Now, the data obtained is in lxml. So, we will parse
-    #     # it with BeautifulSoup library
-    #     soup = BeautifulSoup(decoded_data, "lxml")
-    #     print(soup)
-    #     body = soup.body()
-
-    #     # Printing the subject, sender's email and message
-    #     print("Subject: ", subject)
-    #     print("From: ", sender)
-    #     print("Message: ", body)
-    #     print("\n")
-    # except:
-    #     pass
 
 
 def get_size_format(b, factor=1024, suffix="B"):
@@ -106,7 +70,7 @@ def get_size_format(b, factor=1024, suffix="B"):
     return f"{b:.2f}Y{suffix}"
 
 
-def search_messages(service, query="@nec.edu.np"):
+def search_messages(service, query):
     result = service.users().messages().list(userId="me", q=query).execute()
     messages = []
     if "messages" in result:
