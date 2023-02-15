@@ -1,7 +1,6 @@
 import os
 import pickle
 
-from decouple import config
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
@@ -9,7 +8,7 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
-SCOPES = config('SCOPES')
+SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
 
 def get_authenticate():
     """
