@@ -15,7 +15,7 @@ If you are having problem using pip install use this following commands: `pip3 i
 - Run Python3.9 main.py
 
 #### Project folder structure
-![Screenshot from 2023-01-13 19-55-33](https://user-images.githubusercontent.com/52382079/212339526-5cefe61c-2065-4fd6-b071-e23729bb60b9.png)
+![Screenshot from 2023-02-15 21-27-15](https://user-images.githubusercontent.com/52382079/219076848-171c0e67-7653-4b31-a566-723923a7029c.png)
 
 ## YOU ARE GOOD TO GO!!!!
 
