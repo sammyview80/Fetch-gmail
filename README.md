@@ -13,6 +13,7 @@ If you are having problem using pip install use this following commands: `pip3 i
 - Install all dependency with command: `pip3 install -r requirements.txt`
 - Create a credentials.json file on root directory. credential.json file is downloaded from `https://console.cloud.google.com/apis/credentials` create credential for OAurh2.0 Client.
 - Create and .env file with `SCOPES = https://www.googleapis.com/auth/gmail.readonly`
+- Run python3.9 setup.py install
 - Run Python3.9 main.py
 
 #### Project folder structure
