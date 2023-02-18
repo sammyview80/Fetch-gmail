@@ -2,7 +2,6 @@ import aspose.slides as slides
 import aspose.words as words
 
 def convert_ppt_to_pdf(ppt_file_path, pdf_file_path):
-    print(ppt_file_path, pdf_file_path)
     # Load presentation
     pres = slides.Presentation(ppt_file_path)
 
