@@ -1,4 +1,4 @@
-from utils.search_message import search_messages
+from utils.gmail.search_message import search_messages
 
 def mark_as_unread(service, query):
     """

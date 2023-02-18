@@ -1,4 +1,4 @@
-from utils.search_message import search_messages
+from utils.gmail.search_message import search_messages
 
 def delete_messages_with_query(service, query):
     messages_to_delete = search_messages(service, query)
