@@ -29,6 +29,4 @@ If you are having problem using pip install use this following commands: `pip3 i
 2. Download a credentials.json file and store in program root directory `DOWNLOAD JSON`.
    ![Screenshot from 2023-01-13 19-58-20](https://user-images.githubusercontent.com/52382079/212340007-399e80ad-55d5-4851-acf2-9a2513aade78.png)
 
-#Things that I have encounter creating this projects:
-
-1. Conversion of PPT to PDF: I have really hard time on conversion of PPT to PDF. I want a python module that can convert PPT to PDF without any windows or ubuntu OS. But I have found a package name aspose.slide. `pip install Aspose.Slide`. This package don't use any ms powerpoind or anything. Besides I have came to know its module is written on cpython which is in format `slides.cpython-37m-x86_64-linux-gnu.so` which needs `libpython<version>.so.1.o`. So better note it if you face any problems installing this application. And another ubuntu dependency `libgdiplus` which can be installed by command `sudo apt-get install -y libgdiplus`.
+> Here I have used my package: https://github.com/sammyview80/converter
