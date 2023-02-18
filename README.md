@@ -29,4 +29,4 @@ If you are having problem using pip install use this following commands: `pip3 i
 2. Download a credentials.json file and store in program root directory `DOWNLOAD JSON`.
    ![Screenshot from 2023-01-13 19-58-20](https://user-images.githubusercontent.com/52382079/212340007-399e80ad-55d5-4851-acf2-9a2513aade78.png)
 
-> Here I have used my package: https://github.com/sammyview80/converter
+> Here I have used my package: https://github.com/sammyview80/converter for conversion for ppt/doc/docx to pdf.
