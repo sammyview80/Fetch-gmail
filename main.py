@@ -3,12 +3,13 @@ from __future__ import print_function
 import os
 import json
 
-from utils.search_message import search_messages
-from utils.read_message import read_message
-from utils.delete_message import delete_messages_with_query, delete_message_with_id
-from authenticate.get_authenticate import get_authenticate
-from utils.pdf_detector import is_pdf, is_ppt, is_docx
+from utils.gmail.search_message import search_messages
+from utils.gmail.read_message import read_message
+from utils.gmail.delete_message import delete_messages_with_query, delete_message_with_id
+from utils.gmail.get_authenticate import get_authenticate
+from utils.detector import is_pdf, is_ppt, is_docx, is_xlsx, is_image
 from utils.convertor import convert_ppt_to_pdf, convert_docx_to_pdf
+from utils.directory import make_dir, check_dir, move_file
 
 
 class FetchMail: 
@@ -56,25 +57,60 @@ class CheckMail:
             pdf_file = f'{folder_path}/{file.split(".")[0]}.pdf'
             convert_docx_to_pdf(file_path, pdf_file)
 
+    def save_path_in_json(self, file_path, save_in_folder, name):
+        """This will save the path of the file in json file. With respect to the folder name"""
+        if os.path.exists(os.path.join(save_in_folder, f'{name}.json')):
+            # Read the json file. With the help of json.load. File name
+            with open(os.path.join(save_in_folder, f'{name}.json'), 'r') as f:
+                try: 
+                    file = json.load(f)
+                except Exception as e:
+                    print(f"Error: {e}.")
+            with open(os.path.join(save_in_folder, f'{name}.json'), 'w') as f:
+                pdf_file_path_array = file['paths']
+                pdf_file_path_array.append(file_path) if file_path not in pdf_file_path_array else None
+                json.dump({'paths': pdf_file_path_array}, f)
+        else:
+            print(save_in_folder)
+            with open(os.path.join(save_in_folder, f'{name}.json'), 'w') as f:
+                json.dump({'paths': [file_path]}, f)
+
+    def save_file(self, source_file, destination_folder_name, root_folder_name='data'):
+        root_folder= os.path.join(self.root_dir, root_folder_name)
+
+        # Inserted files between destination_folder and root_folder
+        destination_folder = f'{root_folder}/files/{destination_folder_name}'
+
+        # Creates all the folder in the path
+        make_dir(destination_folder)
+
+        new_file_path = os.path.join(destination_folder, source_file.split('/')[-1])
+
+        # Create a path to create a directory
+        save_json_file_path = f'{root_folder}/paths'
+
+        # Create a directory for json file
+        make_dir(save_json_file_path)
+
+        # Save the path in json file
+        self.save_path_in_json(new_file_path, save_json_file_path, destination_folder_name)
+
+        # Move the file to the destination folder
+        move_file(source_file, destination_folder)
+
     def check_pdf(self, file_path, file):
         """This will check if the file is pdf or not and save in a file with path name. If not then it will remove it."""
+
         if is_pdf(file_path):
-            print(f'{file} is a PDF.')
-            if os.path.exists(os.path.join(self.root_dir, 'Pdf_file_paths.json')):
-                with open(os.path.join(self.root_dir, 'Pdf_file_paths.json'), 'r') as f:
-                    try: 
-                        file = json.load(f)
-                    except Exception as e:
-                        print(f"Error: {e}.")
-                with open(os.path.join(self.root_dir, 'Pdf_file_paths.json'), 'w') as f:
-                    pdf_file_path_array = file['paths']
-                    pdf_file_path_array.append(file_path) if file_path not in pdf_file_path_array else None
-                    json.dump({'paths': pdf_file_path_array}, f)
-
-            else:
-                with open(os.path.join(self.root_dir, 'Pdf_file_paths.json'), 'w') as f:
-                    json.dump({'paths': [file_path]}, f)
-
+            self.save_file(file_path, 'PDF')
+        elif is_docx(file_path):
+            self.save_file(file_path, 'DOCX')
+        elif is_ppt(file_path):
+            self.save_file(file_path, 'PPT')
+        elif is_xlsx(file_path):
+            self.save_file(file_path, 'XLSX')
+        elif is_image(file_path):
+            self.save_file(file_path, 'IMG')
         else:
             try:
                 os.remove(file_path)
@@ -99,25 +135,21 @@ class CheckMail:
             try: 
                 for file in os.listdir(folder_path):
                     file_path = os.path.join(folder_path, file)
-                    self.convert_to_pdf(file_path, folder_path)
+                    # self.convert_to_pdf(file_path, folder_path)
                     self.check_pdf(file_path, file)
 
             except NotADirectoryError as e:
                 print(f"Error: {e}.")
             self.remove_empty_dir(folder_path)
 
-    def check_dir(self, dir):
-        """This will check if the directory is present or not. If not then it will create it."""
-        try:
-            os.listdir(dir)
-        except FileNotFoundError as e:
-            os.mkdir(dir)
-
     def run(self, dir='Mails'):
-        self.check_dir(dir)
+        check_dir(dir)
         self.navigate_folder(dir)
         
 
 if __name__ == "__main__":
-    # FetchMail().run()
-    CheckMail().run()
+    choice = input("Do you want to fetch the mail? (y/n): ")
+    if(choice == 'y'):
+        FetchMail().run()
+    else:
+        CheckMail().run()
