@@ -8,7 +8,7 @@ from utils.read_message import read_message
 from utils.delete_message import delete_messages_with_query, delete_message_with_id
 from authenticate.get_authenticate import get_authenticate
 from utils.pdf_detector import is_pdf, is_ppt, is_docx
-from utils.ppt_to_pdf import convert_ppt_to_pdf, convert_docx_to_pdf
+from utils.convertor import convert_ppt_to_pdf, convert_docx_to_pdf
 
 
 class FetchMail: 
